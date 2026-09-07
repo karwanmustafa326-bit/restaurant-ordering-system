@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستەمی داواکاری</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
+        body {
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .btn-qty {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+        }
+        .btn-qty.minus {
+            background-color: #dc3545;
+        }
+        .btn-next {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 18px;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .btn-option {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 25px;
+            font-size: 26px;
+            font-weight: bold;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-option.eat-in {
+            background-color: #28a745;
+        }
+        .btn-option.takeaway {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .btn-back {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- قۆناغی یەکەم: لیستی مینۆ -->
+    <div id="step1" class="step active">
+        <h1>تکایە خواردنەکەت هەڵبژێرە</h1>
+        
+        <div class="menu-item">
+            <span>١. مۆز بە ڕەزیانە</span>
+            <div class="qty-controls">
+                <button class="btn-qty minus" onclick="changeQty('item1', -1)">-</button>
+                <span id="item1-qty">0</span>
+                <button class="btn-qty" onclick="changeQty('item1', 1)">+</button>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <span>٢. مۆز بە فستق</span>
+            <div class="qty-controls">
+                <button class="btn-qty minus" onclick="changeQty('item2', -1)">-</button>
+                <span id="item2-qty">0</span>
+                <button class="btn-qty" onclick="changeQty('item2', 1)">+</button>
+            </div>
+        </div>
+
+        <button class="btn-next" onclick="goToStep(2)">داواکردن / قۆناغی دواتر ⬅</button>
+    </div>
+
+    <!-- قۆناغی دووەم: شێوازی خواردن -->
+    <div id="step2" class="step">
+        <h2>شێوازی خواردن هەڵبژێرە</h2>
+        
+        <button class="btn-option eat-in" onclick="completeOrder('لێرە دەیخۆم')">🍽️ لێرە دەیخۆم</button>
+        <button class="btn-option takeaway" onclick="completeOrder('سەفەری')">🛍️ سەفەری</button>
+        
+        <button class="btn-back" onclick="goToStep(1)">➡️ گەڕانەوە بۆ مینۆ</button>
+    </div>
+
+    <!-- قۆناغی سێیەم: تەواوبوونی داواکاری -->
+    <div id="step3" class="step">
+        <h1 style="color: #28a745;">سوپاس! داواکارییەکەت تۆمارکرا 🎉</h1>
+        <p id="summary" style="font-size: 20px; color: #555;"></p>
+        <p style="font-size: 16px; color: #888;">شاشەکە دوای چەند چركەیەکی تر ڕیستارت دەبێتەوە...</p>
+    </div>
+
+</div>
+
+<script>
+    let cart = {
+        item1: { name: "مۆز بە ڕەزیانە", qty: 0 },
+        item2: { name: "مۆز بە ف��تق", qty: 0 }
+    };
+
+    function changeQty(itemKey, change) {
+        if (cart[itemKey].qty + change >= 0) {
+            cart[itemKey].qty += change;
+            document.getElementById(itemKey + '-qty').innerText = cart[itemKey].qty;
+        }
+    }
+
+    function goToStep(stepNumber) {
+        if (stepNumber === 2) {
+            let totalQty = cart.item1.qty + cart.item2.qty;
+            if (totalQty === 0) {
+                alert("تکایە سەرەتا لانیکەم یەک دانە هەڵبژێرە!");
+                return;
+            }
+        }
+        
+        document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+        document.getElementById('step' + stepNumber).classList.add('active');
+    }
+
+    function completeOrder(type) {
+        let orderDetails = [];
+        if (cart.item1.qty > 0) orderDetails.push(`${cart.item1.name} (${cart.item1.qty})`);
+        if (cart.item2.qty > 0) orderDetails.push(`${cart.item2.name} (${cart.item2.qty})`);
+
+        let summaryText = `داواکارییەکەت: ${orderDetails.join(' ، ')} <br><strong>شێواز: ${type}</strong>`;
+        document.getElementById('summary').innerHTML = summaryText;
+
+        goToStep(3);
+
+        // ڕیستارت بوونەوەی شاشەکە دوای ٤ چsecond
+        setTimeout(() => {
+            resetSystem();
+        }, 4000);
+    }
+
+    function resetSystem() {
+        cart.item1.qty = 0;
+        cart.item2.qty = 0;
+        document.getElementById('item1-qty').innerText = 0;
+        document.getElementById('item2-qty').innerText = 0;
+        goToStep(1);
+    }
+</script>
+
+</body>
+</html>
