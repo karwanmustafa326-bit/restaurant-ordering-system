@@ -1,214 +1,189 @@
 <!DOCTYPE html>
-<html lang="ckb" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سیستەمی داواکاری</title>
+    <title>App Dashboard</title>
     <style>
         * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            user-select: none;
-        }
-        body {
-            background-color: #f4f6f9;
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
         }
+
         .container {
-            width: 100%;
-            max-width: 600px;
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
             text-align: center;
-        }
-        h1, h2 {
-            color: #333;
-            margin-bottom: 25px;
-        }
-        .step {
-            display: none;
-        }
-        .step.active {
-            display: block;
-        }
-        .menu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            padding: 15px 20px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .qty-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .btn-qty {
-            background-color: #28a745;
             color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 22px;
-            cursor: pointer;
+            margin-bottom: 50px;
         }
-        .btn-qty.minus {
-            background-color: #dc3545;
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
         }
-        .btn-next {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 18px;
-            font-size: 22px;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-top: 20px;
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
         }
-        .btn-option {
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 25px;
-            font-size: 26px;
-            font-weight: bold;
-            border-radius: 15px;
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .app-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .app-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+
+        .app-icon {
+            font-size: 64px;
             margin-bottom: 20px;
-            cursor: pointer;
-            transition: 0.2s;
         }
-        .btn-option.eat-in {
-            background-color: #28a745;
-        }
-        .btn-option.takeaway {
-            background-color: #ffc107;
+
+        .app-name {
+            font-size: 28px;
+            font-weight: bold;
             color: #333;
+            margin-bottom: 15px;
         }
-        .btn-back {
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            padding: 10px 20px;
+
+        .app-description {
             font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .app-features {
+            text-align: left;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .app-features li {
+            margin-bottom: 8px;
+            margin-left: 20px;
+        }
+
+        .btn-launch {
+            display: inline-block;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-launch:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-launch:active {
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="header">
+        <h1>🚀 App Dashboard</h1>
+        <p>Welcome to your collection of web applications</p>
+    </div>
 
-    <!-- قۆناغی یەکەم: لیستی مینۆ -->
-    <div id="step1" class="step active">
-        <h1>تکایە خواردنەکەت هەڵبژێرە</h1>
-        
-        <div class="menu-item">
-            <span>١. مۆز بە ڕەزیانە</span>
-            <div class="qty-controls">
-                <button class="btn-qty minus" onclick="changeQty('item1', -1)">-</button>
-                <span id="item1-qty">0</span>
-                <button class="btn-qty" onclick="changeQty('item1', 1)">+</button>
+    <div class="apps-grid">
+        <!-- Restaurant Ordering System -->
+        <div class="app-card">
+            <div class="app-icon">🍕</div>
+            <div class="app-name">Restaurant Ordering</div>
+            <div class="app-description">Kurdish language restaurant ordering system with step-by-step menu selection</div>
+            <div class="app-features">
+                <ul>
+                    <li>✅ Menu selection interface</li>
+                    <li>✅ Quantity controls</li>
+                    <li>✅ Dining options (Eat-in/Takeaway)</li>
+                    <li>✅ Order confirmation</li>
+                </ul>
             </div>
+            <a href="./restaurant.html" class="btn-launch">Launch App →</a>
         </div>
 
-        <div class="menu-item">
-            <span>٢. مۆز بە فستق</span>
-            <div class="qty-controls">
-                <button class="btn-qty minus" onclick="changeQty('item2', -1)">-</button>
-                <span id="item2-qty">0</span>
-                <button class="btn-qty" onclick="changeQty('item2', 1)">+</button>
+        <!-- Multi-Timezone Clock -->
+        <div class="app-card">
+            <div class="app-icon">🌍</div>
+            <div class="app-name">Multi-Timezone Clock</div>
+            <div class="app-description">Track time across different timezones with real-time updates</div>
+            <div class="app-features">
+                <ul>
+                    <li>✅ Real-time clock display</li>
+                    <li>✅ 30+ timezones available</li>
+                    <li>✅ Add custom locations</li>
+                    <li>✅ Day/Night indicators</li>
+                </ul>
             </div>
+            <a href="./clock.html" class="btn-launch">Launch App →</a>
         </div>
 
-        <button class="btn-next" onclick="goToStep(2)">داواکردن / قۆناغی دواتر ⬅</button>
+        <!-- Printer Management -->
+        <div class="app-card">
+            <div class="app-icon">🖨️</div>
+            <div class="app-name">Printer Management</div>
+            <div class="app-description">Complete printer and print job management system</div>
+            <div class="app-features">
+                <ul>
+                    <li>✅ Add and manage printers</li>
+                    <li>✅ Submit print jobs</li>
+                    <li>✅ Track job progress</li>
+                    <li>✅ Real-time status updates</li>
+                </ul>
+            </div>
+            <a href="./printer.html" class="btn-launch">Launch App →</a>
+        </div>
     </div>
-
-    <!-- قۆناغی دووەم: شێوازی خواردن -->
-    <div id="step2" class="step">
-        <h2>شێوازی خواردن هەڵبژێرە</h2>
-        
-        <button class="btn-option eat-in" onclick="completeOrder('لێرە دەیخۆم')">🍽️ لێرە دەیخۆم</button>
-        <button class="btn-option takeaway" onclick="completeOrder('سەفەری')">🛍️ سەفەری</button>
-        
-        <button class="btn-back" onclick="goToStep(1)">➡️ گەڕانەوە بۆ مینۆ</button>
-    </div>
-
-    <!-- قۆناغی سێیەم: تەواوبوونی داواکاری -->
-    <div id="step3" class="step">
-        <h1 style="color: #28a745;">سوپاس! داواکارییەکەت تۆمارکرا 🎉</h1>
-        <p id="summary" style="font-size: 20px; color: #555;"></p>
-        <p style="font-size: 16px; color: #888;">شاشەکە دوای چەند چركەیەکی تر ڕیستارت دەبێتەوە...</p>
-    </div>
-
 </div>
-
-<script>
-    let cart = {
-        item1: { name: "مۆز بە ڕەزیانە", qty: 0 },
-        item2: { name: "مۆز بە ف��تق", qty: 0 }
-    };
-
-    function changeQty(itemKey, change) {
-        if (cart[itemKey].qty + change >= 0) {
-            cart[itemKey].qty += change;
-            document.getElementById(itemKey + '-qty').innerText = cart[itemKey].qty;
-        }
-    }
-
-    function goToStep(stepNumber) {
-        if (stepNumber === 2) {
-            let totalQty = cart.item1.qty + cart.item2.qty;
-            if (totalQty === 0) {
-                alert("تکایە سەرەتا لانیکەم یەک دانە هەڵبژێرە!");
-                return;
-            }
-        }
-        
-        document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
-        document.getElementById('step' + stepNumber).classList.add('active');
-    }
-
-    function completeOrder(type) {
-        let orderDetails = [];
-        if (cart.item1.qty > 0) orderDetails.push(`${cart.item1.name} (${cart.item1.qty})`);
-        if (cart.item2.qty > 0) orderDetails.push(`${cart.item2.name} (${cart.item2.qty})`);
-
-        let summaryText = `داواکارییەکەت: ${orderDetails.join(' ، ')} <br><strong>شێواز: ${type}</strong>`;
-        document.getElementById('summary').innerHTML = summaryText;
-
-        goToStep(3);
-
-        // ڕیستارت بوونەوەی شاشەکە دوای ٤ چsecond
-        setTimeout(() => {
-            resetSystem();
-        }, 4000);
-    }
-
-    function resetSystem() {
-        cart.item1.qty = 0;
-        cart.item2.qty = 0;
-        document.getElementById('item1-qty').innerText = 0;
-        document.getElementById('item2-qty').innerText = 0;
-        goToStep(1);
-    }
-</script>
 
 </body>
 </html>
