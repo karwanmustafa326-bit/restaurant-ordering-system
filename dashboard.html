@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .app-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .app-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+
+        .app-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .app-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .app-description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .app-features {
+            text-align: left;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .app-features li {
+            margin-bottom: 8px;
+            margin-left: 20px;
+        }
+
+        .btn-launch {
+            display: inline-block;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-launch:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-launch:active {
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🚀 App Dashboard</h1>
+        <p>Welcome to your collection of web applications</p>
+    </div>
+
+    <div class="apps-grid">
+        <!-- Restaurant Ordering System -->
+        <div class="app-card">
+            <div class="app-icon">🍕</div>
+            <div class="app-name">Restaurant Ordering</div>
+            <div class="app-description">Kurdish language restaurant ordering system with step-by-step menu selection</div>
+            <div class="app-features">
+                <ul>
+                    <li>✅ Menu selection interface</li>
+                    <li>✅ Quantity controls</li>
+                    <li>✅ Dining options (Eat-in/Takeaway)</li>
+                    <li>✅ Order confirmation</li>
+                </ul>
+            </div>
+            <a href="index.html" class="btn-launch">Launch App →</a>
+        </div>
+
+        <!-- Multi-Timezone Clock -->
+        <div class="app-card">
+            <div class="app-icon">🌍</div>
+            <div class="app-name">Multi-Timezone Clock</div>
+            <div class="app-description">Track time across different timezones with real-time updates</div>
+            <div class="app-features">
+                <ul>
+                    <li>✅ Real-time clock display</li>
+                    <li>✅ 30+ timezones available</li>
+                    <li>✅ Add custom locations</li>
+                    <li>✅ Day/Night indicators</li>
+                </ul>
+            </div>
+            <a href="clock.html" class="btn-launch">Launch App →</a>
+        </div>
+
+        <!-- Printer Management -->
+        <div class="app-card">
+            <div class="app-icon">🖨️</div>
+            <div class="app-name">Printer Management</div>
+            <div class="app-description">Complete printer and print job management system</div>
+            <div class="app-features">
+                <ul>
+                    <li>✅ Add and manage printers</li>
+                    <li>✅ Submit print jobs</li>
+                    <li>✅ Track job progress</li>
+                    <li>✅ Real-time status updates</li>
+                </ul>
+            </div>
+            <a href="printer.html" class="btn-launch">Launch App →</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
